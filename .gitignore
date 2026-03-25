@@ -1,3 +1,4 @@
 myprog
 *.o
-
+build/
+deps
