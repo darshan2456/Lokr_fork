@@ -8,5 +8,6 @@ typedef struct {
 
 int authentificate(char *password_buffer);
 int is_there_users();
-int create_user();
+int create_user(char* username, char* password);
+
 #endif
