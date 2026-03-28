@@ -39,5 +39,6 @@ int F_search(char *file_name, char *in_to_search, char* word) {
         return 0;
       }
   }
+  fclose(fptr);
   return 1;
-} // Dont forget to close the file when finshed
+}

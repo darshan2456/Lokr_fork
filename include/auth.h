@@ -2,11 +2,11 @@
 #define AUTH_H
 
 typedef struct {
-  char username[60];
-  char passwd[60];
+  char username[70];
+  char passwd[70];
 } user_t;
 
-int authenticate(char *password_buffer);
-int create_user(char *username, char *password);
+int authenticate(char* password_buffer, char* username_buffer);
+int create_user(char* username, char* password);
 
 #endif
