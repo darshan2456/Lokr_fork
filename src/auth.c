@@ -12,9 +12,6 @@ int authenticate(char *password_buffer, char* username_buffer) {
   F_search("user.bin", "username", saved_username);
   F_search("user.bin", "password", encoded_saved_pass);
 
-  printf("saved username : %s\n", saved_username);
-  printf("username_buffer : %s\n", username_buffer);
-
   if (strcmp(username_buffer, saved_username) == 0){
     if (verify_password(password_buffer, encoded_saved_pass) == 0){
       printf("Corret password\n");

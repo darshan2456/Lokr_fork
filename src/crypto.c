@@ -1,4 +1,5 @@
 #include <argon2.h>
+#include <sodium.h>
 #include <string.h>
 #include "crypto.h"
 

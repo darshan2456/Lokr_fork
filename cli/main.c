@@ -1,8 +1,8 @@
 #include <stdio.h>
-#include <string.h>
 
 #include "auth.h"
 #include "vault.h"
+#include "misc.h"
 
 char password_buffer[60];
 char username_buffer[60];
@@ -16,12 +16,10 @@ int main(int argc, char *argv[]) {
     // Takes user credential
     printf("please create a user.\n");
     printf("Username : ");
-    fgets(username_buffer, sizeof(username_buffer), stdin);
-    username_buffer[strcspn(username_buffer, "\n")] = '\0';
+    f_gets(username_buffer);
 
     printf("Password : ");
-    fgets(password_buffer, sizeof(password_buffer), stdin);
-    password_buffer[strcspn(password_buffer, "\n")] = '\0';
+    f_gets(password_buffer);
     create_user(username_buffer, password_buffer);
   }
 
@@ -31,21 +29,16 @@ int main(int argc, char *argv[]) {
     do {
 
       printf("Enter your username : ");
-      fgets(username_buffer, sizeof(username_buffer), stdin);
-      username_buffer[strcspn(username_buffer, "\n")] = '\0';
+      f_gets(username_buffer);
 
       printf("Enter your password : ");
-      fgets(password_buffer, sizeof(password_buffer), stdin);
-      password_buffer[strcspn(password_buffer, "\n")] = '\0';
+      f_gets(password_buffer);
 
     } while (authenticate(password_buffer, username_buffer) != 0);
 
     // save credential to a struct
-    strncpy(user.username, username_buffer, sizeof(user.username) - 1);
-    user.username[sizeof(user.username) - 1] = '\0';
-
-    strncpy(user.passwd, password_buffer, sizeof(user.passwd) - 1);
-    user.passwd[sizeof(user.passwd) - 1] = '\0';
+    str_cpy(user.username, username_buffer);
+    str_cpy(user.passwd, password_buffer);
   }
 
   // if arguments are specified
