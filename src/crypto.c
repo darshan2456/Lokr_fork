@@ -29,7 +29,6 @@ int verify_password(const char *password, const char *encoded) {
 }
 
 unsigned char *crypto_encrypt(const unsigned char *key, const unsigned char *message, size_t message_len) {
-
   size_t ctext_len = crypto_secretbox_MACBYTES + message_len;
   size_t blob_len  = crypto_secretbox_NONCEBYTES + ctext_len + sizeof(ui32);
 
@@ -49,15 +48,10 @@ unsigned char *crypto_encrypt(const unsigned char *key, const unsigned char *mes
   randombytes_buf(nonce, crypto_secretbox_NONCEBYTES);
   crypto_secretbox_easy(ctext, message, message_len, nonce, key);
 
-  printf("ciph = %s \n nonce = %s \n", ctext, nonce);
-
   return blob;
 }
 
 unsigned char* crypto_decrypt(const unsigned char *key, unsigned char* blob){
-
-  // size_t* message_len;
-  // memcpy(message_len, blob, sizeof(ui32));
   uint32_t len32;
   memcpy(&len32, blob, sizeof(uint32_t));
   size_t message_len = (size_t)len32;
