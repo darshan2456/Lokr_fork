@@ -13,7 +13,7 @@ When first running the program it scans for a `user.bin` file where user credent
 
 ```
 add [site] [username] [password]
-show [site] or [username] or both
+show site=[site] or user=[username]
 ```
 
 Other options will be added in future versions...
