@@ -158,10 +158,10 @@ void show(char *tokens[]) {
   char *b_key1 = encode_base64(value);
 
   if (strcmp(key, "site") == 0) {
-    result = search("user.bin", b_key1, 2);
+    result = search("user.bin", b_key1, 1);
   }
   else if (strcmp(key, "user") == 0) {
-    result = search("user.bin", b_key1, 3);
+    result = search("user.bin", b_key1, 2);
   }
   else {
     printf("Syntax error expected : \
@@ -175,6 +175,8 @@ void show(char *tokens[]) {
 
  // logic change loop throught 3 words at a time
   for (int i = 0; 1; i++){
+
+    // check for sentinel
     if (result[i].site == NULL \
       && result[i].username == NULL \
       && result[i].password == NULL){
@@ -189,7 +191,7 @@ void show(char *tokens[]) {
     unsigned char *clear_passwd = crypto_decrypt(
         (const unsigned char *)user.passwd, (unsigned char *)decoded_password);
 
-    printf("%s %s %s\n", decoded_site, decoded_username, clear_passwd);
+    printf("%s %s %s", decoded_site, decoded_username, clear_passwd);
   }
 
   // free(decoded_username);
