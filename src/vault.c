@@ -70,17 +70,15 @@ Entry* search(char* file_name,char* input, int search_type){
     int i = 0;
     Entry *results = NULL;
 
-    char word1[256]; 
-    char word2[256]; 
-    char word3[256]; 
+    char word1[256];
+    char word2[256];
+    char word3[256];
     char line[4024];
 
     while (fgets(line, sizeof(line), fptr) != NULL) {
       // only enters while loop for some reason
-
-      printf("LINE: [%s]\n", line);  // add this
-      int n = sscanf(line, "%255s %255s %255s", word1, word2, word3);
-      printf("sscanf returned: %d\n", n);
+      // fetches out the first line only
+      // then skips all the others
 
       if (sscanf(line, "%255s %255s %255s", word1, word2, word3) == 3) {
 
@@ -145,6 +143,8 @@ Entry* search(char* file_name,char* input, int search_type){
     return results;
     }
   }
+
+
   printf("Nothing !");
   return NULL;
 }
