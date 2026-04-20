@@ -1,7 +1,7 @@
 #include <gtk/gtk.h>
 
 #include "../include/signup_window.h"
-#include "../src/include/auth.h"
+#include "../../src/include/auth.h"
 
 static void test_credentials(GtkButton *button, gpointer user_data);
 static void signup_panel(GtkApplication *app, gpointer data);

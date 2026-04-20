@@ -1,7 +1,7 @@
 #include <gtk/gtk.h>
 
-#include "../src/include/vault.h"
-#include "../src/include/crypto.h"
+#include "../../src/include/vault.h"
+#include "../../src/include/crypto.h"
 
 static void main_window(GtkApplication *app, gpointer data);
 static void view_vault(GtkButton *button, gpointer *window_ptr);

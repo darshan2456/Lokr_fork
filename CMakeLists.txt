@@ -14,8 +14,8 @@ FetchContent_Declare(
 # Fetch Argon2 (using a CMake-compatible wrapper)
 FetchContent_Declare(
   Argon2
-  GIT_REPOSITORY https://github.com
-  GIT_TAG        main
+  GIT_REPOSITORY https://github.com/P-H-C/phc-winner-argon2
+  GIT_TAG        master
 )
 
 FetchContent_MakeAvailable(libsodium Argon2)
@@ -35,9 +35,9 @@ file(GLOB GUI_SRCS "gui/*.c" "gui/windows/*.c")
 
 # 4. Target: CLI (Default)
 add_executable(myprog ${COMMON_SRCS} ${CLI_SRCS})
-target_link_libraries(myprog PRIVATE sodium Argon2)
+target_link_libraries(myprog PRIVATE sodium argon2)
 
 # 5. Target: GUI
 add_executable(myprog_gui ${COMMON_SRCS} ${GUI_SRCS})
-target_link_libraries(myprog_gui PRIVATE sodium Argon2 PkgConfig::GTK4)
+target_link_libraries(myprog_gui PRIVATE sodium argon2 PkgConfig::GTK4)
 
