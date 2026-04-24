@@ -8,12 +8,14 @@
 #include "../include/main_window.h"
 #include "../include/view_vault.h"
 
-void view_vault(GtkButton *button, gpointer *window_ptr);
+void view_vault_window(GtkButton *button, gpointer *window_ptr);
 GtkWidget* create_credential_row(const char *site, const char *username, const char *password);
 
-void view_vault(GtkButton *button, gpointer *data)
+void view_vault_window(GtkButton *button, gpointer *data)
 {
   Window *window_ptr = (Window *)data;
+  GtkWidget *content_area = window_ptr->content_area;
+  gtk_stack_set_visible_child_name(GTK_STACK(window_ptr->stack), "vault");
 
   size_t decoded_len = 0;
   Entry *result = NULL;
@@ -23,6 +25,11 @@ void view_vault(GtkButton *button, gpointer *data)
   if (result == NULL) {
     printf("Error: Not found\n");
     return;
+  }
+
+  GtkWidget *child;
+  while ((child = gtk_widget_get_first_child(content_area)) != NULL) {
+    gtk_box_remove(GTK_BOX(content_area), child);
   }
  
  // logic change loop throught 3 words at a time
@@ -46,9 +53,14 @@ void view_vault(GtkButton *button, gpointer *data)
     unsigned char *clear_passwd = crypto_decrypt(
         (const unsigned char *)key, (unsigned char *)decoded_password);
 
-    GtkWidget *content_area = window_ptr->content_area;
     gtk_box_append(GTK_BOX(content_area), create_credential_row(decoded_site,  decoded_username,  (char *)clear_passwd));
+
+    free(decoded_site);
+    free(decoded_username);
+    free(decoded_password);
+    free(clear_passwd);
   }
+  free(result);
 }
 
 // Helper to create a single row with 3 entry fields

@@ -3,6 +3,6 @@
 
 #include <gtk/gtk.h>
 
-void add_password(GtkButton *button, gpointer *data);
+void add_password_window(GtkButton *button, gpointer *data);
 
 #endif

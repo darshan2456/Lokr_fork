@@ -14,20 +14,28 @@ typedef struct{
 
 static void save_password();
 
-void add_password(GtkButton *button2, gpointer *data){
+void add_password_window(GtkButton *button2, gpointer *data){
   GtkWidget *box;
   GtkWidget *label;
   GtkWidget *button;
 
   Window *window_ptr = (Window *)data;
-  GtkWidget *content_area = window_ptr->content_area;
+  GtkWidget *add_pass_area = window_ptr->add_pass_area;
+  gtk_stack_set_visible_child_name(GTK_STACK(window_ptr->stack), "add_pass");
+
+  // clear old form if button clicked multiple times
+  GtkWidget *child;
+  while ((child = gtk_widget_get_first_child(add_pass_area)) != NULL) {
+    gtk_box_remove(GTK_BOX(add_pass_area), child);
+  }
+
   entry_ptr *entry = g_malloc(sizeof(entry_ptr));
 
   /* Create a box */
   box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
   gtk_widget_set_valign(box, GTK_ALIGN_CENTER);
   gtk_widget_set_halign(box, GTK_ALIGN_CENTER);
-  gtk_box_append(GTK_BOX(content_area), box);
+  gtk_box_append(GTK_BOX(add_pass_area), box);
 
   /* Create site entry */
   label = gtk_label_new("site");
@@ -84,4 +92,8 @@ static void save_password(GtkButton *button2, gpointer *data){
   free(b64_login);
   free(b64_site);
   free(b64_pass);
+
+  gtk_editable_set_text(GTK_EDITABLE(entry->entry_site), "");
+  gtk_editable_set_text(GTK_EDITABLE(entry->entry_username), "");
+  gtk_editable_set_text(GTK_EDITABLE(entry->entry_password), "");
 }

@@ -39,30 +39,43 @@ static void main_window(GtkApplication *app, gpointer data)
   paned = gtk_paned_new(GTK_ORIENTATION_HORIZONTAL);
   gtk_window_set_child(GTK_WINDOW(main_window), paned);
 
-  // create a right sidebar inside the panned box + button inside
+  // create a right sidebar inside the panned box + buttons inside
   sidebar = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
   gtk_widget_set_size_request(sidebar, 150, -1);
   gtk_paned_set_start_child(GTK_PANED(paned), sidebar);
 
   btn_show_all = gtk_button_new_with_label("Show All Data");
-  g_signal_connect(btn_show_all, "clicked", G_CALLBACK(view_vault), window_ptr);
+  g_signal_connect(btn_show_all, "clicked", G_CALLBACK(view_vault_window), window_ptr);
   gtk_box_append(GTK_BOX(sidebar), btn_show_all);
 
   btn_add_pass = gtk_button_new_with_label("add passwords");
-  g_signal_connect(btn_add_pass, "clicked", G_CALLBACK(add_password), window_ptr);
+  g_signal_connect(btn_add_pass, "clicked", G_CALLBACK(add_password_window), window_ptr);
   gtk_box_append(GTK_BOX(sidebar), btn_add_pass);
+
+  // Create the stack
+  GtkWidget *stack = gtk_stack_new();
+  gtk_stack_set_transition_type(GTK_STACK(stack), GTK_STACK_TRANSITION_TYPE_SLIDE_LEFT_RIGHT);
+  gtk_stack_set_transition_duration(GTK_STACK(stack), 200);
+  gtk_paned_set_end_child(GTK_PANED(paned), stack);
 
   // initialize the right scrooled bar for content
   scrolled_window = gtk_scrolled_window_new();
-  gtk_paned_set_end_child(GTK_PANED(paned), scrolled_window);
 
   // Create a box inside the scrolled window to hold password rows
   content_area = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
   gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(scrolled_window), content_area);
+  gtk_stack_add_named(GTK_STACK(stack), scrolled_window, "vault");
+
+  GtkWidget *add_pass_area = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
+  gtk_stack_add_named(GTK_STACK(stack), add_pass_area, "add_pass");
+
+  gtk_stack_set_visible_child_name(GTK_STACK(stack), "vault");
 
   // save pointers used in other functions
-  window_ptr->window = main_window;
+  window_ptr->add_pass_area = add_pass_area;
   window_ptr->content_area = content_area;
+  window_ptr->window       = main_window;
+  window_ptr->stack        = stack;
 
   gtk_window_present (GTK_WINDOW (main_window));
 }

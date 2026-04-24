@@ -6,6 +6,8 @@
 typedef struct{
   GtkWidget *content_area;
   GtkWidget *window;
+  GtkWidget *stack;
+  GtkWidget *add_pass_area;
 } Window;
 
 int show_main_window(int argc, char** argv);

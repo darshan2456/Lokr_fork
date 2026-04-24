@@ -3,7 +3,7 @@
 
 #include <gtk/gtk.h>
 
-void view_vault(GtkButton *button, gpointer *window_ptr);
+void view_vault_window(GtkButton *button, gpointer *window_ptr);
 
 #endif
 
