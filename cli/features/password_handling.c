@@ -101,15 +101,56 @@ void show(char *tokens[]) {
 
     char *decoded_site = decode_base64(result[j].site);
     char *decoded_username = decode_base64(result[j].username);
-    unsigned char *decoded_password =
-        decode_base64_bin(result[j].password, &decoded_len);
+    unsigned char *decoded_password = decode_base64_bin(result[j].password, &decoded_len);
 
-    unsigned char *clear_passwd = crypto_decrypt(
-        (const unsigned char *)user.passwd, (unsigned char *)decoded_password);
+    unsigned char *clear_passwd = crypto_decrypt( (const unsigned char *)user.passwd, (unsigned char *)decoded_password);
 
-    printf("%s %s %s", decoded_site, decoded_username, clear_passwd);
+    printf("%s %s %s\n", decoded_site, decoded_username, clear_passwd);
   }
 
   free(b_key1);
   free(result);
 }
+
+void delete(char *tokens[]){
+  char *site = tokens[1];
+  char *login = tokens[2];
+
+  int i = delete_password(site, login);
+
+  if (i==0){
+    printf("Deleted succesfully\n");
+  }
+  else {
+    printf("Error occured while deleting!\n");
+  }
+}
+
+void dump(char *filename){
+  Entry *result = NULL;
+  size_t decoded_len = 0;
+
+  result = dump_all(filename);
+
+  // logic change loop throught 3 words at a time
+  int j;
+  for (j = 0; 1; j++){
+
+    // check for sentinel
+    if (result[j].site == NULL \
+      && result[j].username == NULL \
+      && result[j].password == NULL){
+      break;
+    }
+    char *decoded_site = decode_base64(result[j].site);
+    char *decoded_username = decode_base64(result[j].username);
+    unsigned char *decoded_password = decode_base64_bin(result[j].password, &decoded_len);
+
+    unsigned char *clear_passwd = crypto_decrypt( (const unsigned char *)user.passwd, (unsigned char *)decoded_password);
+
+    printf("%s %s %s\n", decoded_site, decoded_username, clear_passwd);
+  }
+
+  free(result);
+}
+

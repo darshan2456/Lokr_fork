@@ -3,6 +3,8 @@
 
 void add(char *tokens[]);
 void show(char *tokens[]);
+void delete(char *tokens[]);
+void dump(char* filename);
 
 #endif
 

@@ -41,13 +41,30 @@ int main(int argc, char *argv[]) {
         } else {
           add(tokens);
         }
-      } else if (strcmp(tokens[0], "show") == 0) {
+      }
+
+      else if (strcmp(tokens[0], "show") == 0) {
         if (count != 2) {
           printf("Command layout : add site=[site] or add user=[username]\n");
         } else {
           show(tokens);
         }
       }
+
+      else if (strcmp(tokens[0], "dump-all") == 0){
+        dump("user.bin");
+      }
+
+      else if (strcmp(tokens[0], "delete") == 0){
+        if (count != 3){
+          printf("Command layout : delete [site] [username]\n");
+          printf("It is recommanded to search for the excat password firdt using the 'show' command !");
+        }
+        else {
+          delete(tokens);
+        }
+      }
+
     }
   }
 

@@ -153,3 +153,53 @@ Entry* dump_all(char* file_name){
 
   return results;
 }
+
+int delete_password(char* site, char* username){
+  char *word1, *word2, *word3;
+
+  char tmp_path[] = "/tmp/lokr";
+  int fd = mkstemp(tmp_path);
+  if (fd == -1) return -1;
+
+  FILE *src = fopen("user.bin", "r");
+  FILE *dst = fdopen(fd, "w");
+  if (!src || !dst) return -1;
+
+  char line[4096];
+  int deleted = 0;
+
+  while (fgets(line, sizeof(line), src)) {
+
+    if (sscanf(line, "%255s %255s %255s", word1, word2, word3) != 3){
+      continue;
+    }
+
+    if (strcmp(word1, site) == 0 && strcmp(word2, username) == 0) {
+      printf("deleted\n");
+    }
+    else {
+      fputs(line, dst);
+    }
+
+    // // Strip newline for comparison
+    // char stripped[4096];
+    // strncpy(stripped, line, sizeof(stripped));
+    // stripped[strcspn(stripped, "\n")] = '\0';
+    //
+    // if (!deleted && strcmp(stripped, target) == 0) {
+    //   deleted = 1; // Skip this line
+    // } else {
+    //   fputs(line, dst);
+    // }
+  }
+
+  fclose(src);
+  fclose(dst);
+
+  if (rename(tmp_path, "user.bin") != 0) {
+    remove(tmp_path);
+    return -1;
+  }
+
+  return deleted ? 0 : -1; // 0 = success, -1 = line not found
+}
