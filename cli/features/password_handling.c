@@ -116,13 +116,17 @@ void delete(char *tokens[]){
   char *site = tokens[1];
   char *login = tokens[2];
 
-  int i = delete_password(site, login);
+  char *encoded_site = encode_base64(site);
+  char *encoded_login = encode_base64(login);
 
-  if (i==0){
-    printf("Deleted succesfully\n");
+
+  int i = delete_password(encoded_site, encoded_login);
+
+  if (i != 0){
+    printf("A problem occured !\n");
   }
   else {
-    printf("Error occured while deleting!\n");
+    printf("Deleted sucesfully\n");
   }
 }
 

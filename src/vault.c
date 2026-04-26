@@ -113,6 +113,7 @@ Entry* search(char* file_name,char* input, int search_type){
   // sentinel end delimitter
   results[i] = (Entry){NULL, NULL, NULL};
 
+  fclose(fptr);
   return results;
 }
 
@@ -155,51 +156,31 @@ Entry* dump_all(char* file_name){
 }
 
 int delete_password(char* site, char* username){
-  char *word1, *word2, *word3;
-
-  char tmp_path[] = "/tmp/lokr";
-  int fd = mkstemp(tmp_path);
-  if (fd == -1) return -1;
-
-  FILE *src = fopen("user.bin", "r");
-  FILE *dst = fdopen(fd, "w");
-  if (!src || !dst) return -1;
-
+  char word1[256];
+  char word2[256];
+  char word3[256];
   char line[4096];
-  int deleted = 0;
 
-  while (fgets(line, sizeof(line), src)) {
+  FILE *fptr = F_open("user.bin", "r");
+  if (!fptr) return -1;
 
-    if (sscanf(line, "%255s %255s %255s", word1, word2, word3) != 3){
-      continue;
-    }
+  while (fgets(line, sizeof(line), fptr) != NULL) {
+
+    sscanf(line, "%255s %255s %255s", word1, word2, word3);
 
     if (strcmp(word1, site) == 0 && strcmp(word2, username) == 0) {
-      printf("deleted\n");
     }
     else {
-      fputs(line, dst);
+      F_write("temp.bin",  line, 0);
     }
 
-    // // Strip newline for comparison
-    // char stripped[4096];
-    // strncpy(stripped, line, sizeof(stripped));
-    // stripped[strcspn(stripped, "\n")] = '\0';
-    //
-    // if (!deleted && strcmp(stripped, target) == 0) {
-    //   deleted = 1; // Skip this line
-    // } else {
-    //   fputs(line, dst);
-    // }
   }
 
-  fclose(src);
-  fclose(dst);
+  fclose(fptr);
 
-  if (rename(tmp_path, "user.bin") != 0) {
-    remove(tmp_path);
+  if (rename("temp.bin", "user.bin") != 0) {
     return -1;
   }
 
-  return deleted ? 0 : -1; // 0 = success, -1 = line not found
+  return 0;
 }
