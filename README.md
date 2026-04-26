@@ -4,7 +4,7 @@ Secure Password Manager project I'am currently working on, implementing hash and
 Note : For now only the CLI partially works (since I'am still working on this project) but a GUI version will be created for a better usability.
 
 ## Project structure
-In the `src` folder all the source code for the functions used in the CLI tool inside the `cli` folder. Header files are in `include` folder.
+In the `src` folder all the source code for the functions used in the CLI tool inside the `cli` folder and for the GUI application inside the `gui` folder. Header files are in `include` folder inside both `cli` and `gui`, as well as other features and wrapper functions inside the `features` folder in `src` and `gui`.
 
 ## Dependencies
 For the CLI tool to work you need to have both `argon2` and `sodium` libraries in your system, for the GUI `GTK4` is needed. Make sure to have the right dependencies before building the project.
