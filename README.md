@@ -10,7 +10,7 @@ For the CLI tool to work you need to have both `argon2` and `sodium` libraries i
 ## Building the project
 You can clone this repository and build it using the command `make` inside the root project folder for the CLI and `make gui` for the GUI app.
 
-Or using `Cmake` which fetch dependencies automatically and locally :
+Or using `Cmake` which fetch dependencies automatically and locally, Steps are listed below :
 
 ```
 mkdir build && cd build
