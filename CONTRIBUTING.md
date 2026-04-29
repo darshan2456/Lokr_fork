@@ -37,6 +37,13 @@ Be respectful. Contributions are reviewed by humans. Keep discussions technical,
    make
    ```
 
+Or Recommended way :
+   ```sh
+mkdir build && cd build
+cmake ..
+cmake --build .
+   ```
+
 ---
 
 ## How to Contribute
