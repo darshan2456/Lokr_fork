@@ -79,8 +79,12 @@ int main() {
       }
     }
 
-    else if (strcmp(tokens[0], "help")==0){
+    else if (strcmp(tokens[0], "help") == 0){
       help();
+    }
+
+    else if(strcmp(tokens[0], "exit") == 0){
+      break;
     }
 
     else {
